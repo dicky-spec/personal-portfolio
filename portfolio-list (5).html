@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Dicky Indrayan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #F5F5F3; --bg-card: #FFFFFF; --bg-soft: #EDEDEB;
+    --ink: #000000; --ink-soft: #2A2A2A; --ink-muted: #767676;
+    --accent: #FF1500; --accent-soft: #FFE5E1; --accent-dark: #D01100;
+    --border: #E0E0DE; --border-soft: #EBEBE9;
+    --shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.04);
+    --radius: 12px; --radius-lg: 20px; --card-pad: 24px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter Tight', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; font-size: 15px; -webkit-font-smoothing: antialiased; letter-spacing: -0.01em; }
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  .header { padding: 60px 0 40px; border-bottom: 1px solid var(--border); }
+  .brand-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .brand-photo { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+  .brand-meta { font-size: 13px; color: var(--ink-muted); letter-spacing: 0; text-transform: none; font-weight: 400; }
+  .page-title { font-size: clamp(44px, 7vw, 80px); font-weight: 500; letter-spacing: -0.045em; line-height: 0.96; margin-bottom: 24px; }
+  .page-title em { font-style: normal; color: var(--accent); }
+  .page-subtitle { font-size: 17px; color: var(--ink-soft); max-width: 620px; margin-bottom: 40px; line-height: 1.5; }
+  .stats { display: flex; gap: 48px; flex-wrap: wrap; padding-top: 12px; }
+  .stat-num { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; color: var(--ink); line-height: 1; }
+  .stat-label { font-size: 13px; color: var(--ink-muted); margin-top: 6px; }
+  .toc { position: sticky; top: 0; background: var(--bg); padding: 14px 0; border-bottom: 1px solid var(--border); z-index: 10; margin-bottom: 48px; }
+  .toc-inner { display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .toc-inner::-webkit-scrollbar { display: none; }
+  .toc a { padding: 7px 16px; font-size: 13px; font-weight: 500; color: var(--ink-soft); border-radius: 100px; text-decoration: none; white-space: nowrap; transition: all 0.15s; }
+  .toc a:hover { background: var(--bg-soft); color: var(--ink); }
+  .toc a.featured { background: var(--accent); color: var(--ink); }
+  .toc a.featured:hover { background: var(--accent-dark); }
+  section { padding: 32px 0 56px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 28px; gap: 24px; flex-wrap: wrap; }
+  .section-title { font-size: 32px; font-weight: 500; letter-spacing: -0.03em; color: var(--ink); display: flex; align-items: baseline; gap: 12px; }
+  .section-count { font-size: 14px; color: var(--ink-muted); font-weight: 400; }
+  .section-desc { font-size: 14px; color: var(--ink-muted); max-width: 440px; text-align: right; line-height: 1.5; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: var(--card-pad); transition: all 0.2s; display: flex; flex-direction: column; }
+  .card:hover { border-color: var(--ink-muted); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .card-title { font-size: 19px; font-weight: 500; letter-spacing: -0.02em; color: var(--ink); line-height: 1.2; flex: 1; }
+  .card-featured-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--accent); color: var(--ink); padding: 3px 8px; border-radius: 100px; flex-shrink: 0; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 100px; color: var(--ink-soft); background: var(--bg-soft); }
+  .tag.accent { background: var(--accent-soft); color: var(--accent-dark); }
+  .card-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 14px; flex: 1; }
+  .links { display: flex; flex-direction: column; gap: 2px; padding-top: 12px; border-top: 1px solid var(--border-soft); margin-top: auto; }
+  .link { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+  .link:hover { color: var(--accent); }
+  .link-label { font-weight: 500; color: var(--ink); min-width: 88px; flex-shrink: 0; }
+  .link-url { color: var(--ink-muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .link:hover .link-label, .link:hover .link-url { color: var(--accent); }
+  .link-arrow { font-size: 13px; color: var(--ink-muted); margin-left: auto; flex-shrink: 0; opacity: 0.5; transition: all 0.15s; }
+  .link:hover .link-arrow { color: var(--accent); opacity: 1; transform: translate(1px, -1px); }
+
+  /* Featured hero cards */
+  .featured-hero { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .hero-card { background: var(--accent); color: var(--ink); border-radius: var(--radius-lg); padding: 0; border: 1px solid var(--accent); display: flex; flex-direction: column; overflow: hidden; }
+  .hero-card.alt { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
+  .hero-card.dark { background: var(--ink); color: var(--bg-card); border-color: var(--ink); }
+  .hero-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: rgba(0,0,0,0.08); }
+  .hero-card.dark .hero-thumb { background: rgba(255,255,255,0.06); }
+  .hero-body { padding: 20px var(--card-pad) 22px; display: flex; flex-direction: column; flex: 1; }
+  .hero-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; margin-bottom: 14px; background: rgba(0,0,0,0.12); color: var(--ink); align-self: flex-start; }
+  .hero-card.alt .hero-badge { background: var(--accent); color: var(--ink); }
+  .hero-card.dark .hero-badge { background: var(--accent); color: var(--ink); }
+  .hero-title { font-size: 24px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 8px; }
+  .hero-desc { font-size: 13px; line-height: 1.55; margin-bottom: 16px; opacity: 0.85; flex: 1; }
+  .hero-links { display: flex; flex-direction: column; gap: 2px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.15); margin-top: auto; }
+  .hero-card.alt .hero-links { border-top-color: var(--border-soft); }
+  .hero-card.dark .hero-links { border-top-color: rgba(255,255,255,0.15); }
+  .hero-link { display: flex; align-items: center; gap: 8px; font-size: 13px; text-decoration: none; padding: 5px 0; color: inherit; transition: opacity 0.15s; }
+  .hero-link:hover { opacity: 0.7; }
+  .hero-link-label { font-weight: 500; flex-shrink: 0; min-width: 88px; }
+  .hero-link-url { opacity: 0.7; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .hero-link-arrow { margin-left: auto; opacity: 0.5; flex-shrink: 0; transition: all 0.15s; }
+  .hero-link:hover .hero-link-arrow { opacity: 1; transform: translate(1px, -1px); }
+
+  /* Placeholder thumbnail */
+  .placeholder-thumb { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+  .hero-card .placeholder-thumb { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.25); }
+  .hero-card.alt .placeholder-thumb { background: var(--bg-soft); color: var(--ink-muted); }
+  .hero-card.dark .placeholder-thumb { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.2); }
+
+  footer { margin-top: 80px; padding: 48px 0 60px; border-top: 1px solid var(--border); text-align: center; color: var(--ink-muted); font-size: 13px; }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .header { padding: 32px 0 28px; }
+    .brand-row { margin-bottom: 32px; }
+    .page-title { font-size: clamp(36px, 9vw, 56px); margin-bottom: 18px; }
+    .page-subtitle { font-size: 15px; margin-bottom: 28px; }
+    .stats { gap: 24px; }
+    .stat-num { font-size: 28px; }
+    .toc { padding: 12px 0; margin-bottom: 32px; }
+    section { padding: 24px 0 40px; }
+    .section-head { flex-direction: column; align-items: flex-start; margin-bottom: 20px; }
+    .section-desc { text-align: left; }
+    .section-title { font-size: 26px; }
+    .grid, .featured-hero { grid-template-columns: 1fr; gap: 12px; }
+    :root { --card-pad: 20px; }
+    .card-title { font-size: 17px; }
+    .hero-title { font-size: 22px; }
+    .link-label, .hero-link-label { min-width: 76px; }
+    footer { margin-top: 48px; padding: 32px 0 40px; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .brand { font-size: 13px; }
+    .page-title { font-size: 32px; }
+    .stats { gap: 16px; }
+    .stat-num { font-size: 24px; }
+    :root { --card-pad: 16px; }
+    .card-title { font-size: 16px; }
+    .hero-title { font-size: 20px; }
+    .tags { margin-bottom: 10px; }
+    .tag { font-size: 10px; padding: 2px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="brand-row">
+      <div class="brand">
+        <img class="brand-photo" src="data:image/jpeg;base64,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" alt="Dicky Indrayan" />
+        <span>Dicky Indrayan</span>
+      </div>
+      <div class="brand-meta">Portfolio · Updated April 2026</div>
+    </div>
+    <h1 class="page-title">Selected work across <em>product</em>, <em>web</em> &amp; <em>brand</em>.</h1>
+    <p class="page-subtitle">A curated overview of recent and representative projects — covering SaaS products, marketing websites, mobile apps, and visual systems. Designed to be referenced during proposal reviews.</p>
+    <div class="stats">
+      <div><div class="stat-num">80+</div><div class="stat-label">Projects delivered</div></div>
+      <div><div class="stat-num">50+</div><div class="stat-label">Clients served</div></div>
+      <div><div class="stat-num">20+</div><div class="stat-label">Industries covered</div></div>
+      <div><div class="stat-num">6+</div><div class="stat-label">Years of practice</div></div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-inner">
+      <a href="#featured" class="featured">✦ Featured</a>
+      <a href="#product">Product Design</a>
+      <a href="#website">Websites &amp; Landing Pages</a>
+      <a href="#mobile">Mobile Apps</a>
+      <a href="#graphic">Graphic &amp; Illustration</a>
+      <a href="#development">Development</a>
+    </div>
+  </nav>
+
+  <!-- FEATURED -->
+  <section id="featured">
+    <div class="section-head">
+      <h2 class="section-title">Featured work <span class="section-count">11 projects</span></h2>
+      <p class="section-desc">Highlighted projects across product design, marketing websites, mobile apps, and brand strategy.</p>
+    </div>
+    <div class="featured-hero">
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">Website · Live</div>
+          <h3 class="hero-title">Shil Studio</h3>
+          <p class="hero-desc">Website design for a creative studio, balancing editorial tone with a clear, conversion-focused structure.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://www.shilstudio.com/" target="_blank" rel="noopener"><span class="hero-link-label">Live site</span><span class="hero-link-url">shilstudio.com</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/Qahxyw" target="_blank" rel="noopener"><span class="hero-link-label">Figma</span><span class="hero-link-url">Qahxyw</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card alt">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">SaaS · MVP</div>
+          <h3 class="hero-title">Scuttel</h3>
+          <p class="hero-desc">Lightweight SaaS for secure cross-organization collaboration. Full scope — brand, product strategy, end-to-end UX, and design system.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://figmashort.link/Aa4deP" target="_blank" rel="noopener"><span class="hero-link-label">Web app</span><span class="hero-link-url">Aa4deP</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/zidXje" target="_blank" rel="noopener"><span class="hero-link-label">Design system</span><span class="hero-link-url">zidXje</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">B2B · Marketplace</div>
+          <h3 class="hero-title">Haizol</h3>
+          <p class="hero-desc">Scalable design system and platform UI for a B2B manufacturing marketplace. Complex transactional flows designed for clarity and trust.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://www.haizol.com/" target="_blank" rel="noopener"><span class="hero-link-label">Live site</span><span class="hero-link-url">haizol.com</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/kwRPnB" target="_blank" rel="noopener"><span class="hero-link-label">Platform UI</span><span class="hero-link-url">kwRPnB</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card alt">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">Healthcare · Multi-role</div>
+          <h3 class="hero-title">Tetracare</h3>
+          <p class="hero-desc">End-to-end healthcare service design — landing, patient dashboard, mobile app, admin platform, and technician portal.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://figmashort.link/58WWaX" target="_blank" rel="noopener"><span class="hero-link-label">Dashboard</span><span class="hero-link-url">58WWaX</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/YHAi2M" target="_blank" rel="noopener"><span class="hero-link-label">Mobile</span><span class="hero-link-url">YHAi2M</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">AI · Dashboard</div>
+          <h3 class="hero-title">Custom Canvas</h3>
+          <p class="hero-desc">AI-enhanced sales dashboard with predictive analytics, real-time reporting, and clear data visualization.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://figmashort.link/YB5Z8N" target="_blank" rel="noopener"><span class="hero-link-label">Figma</span><span class="hero-link-url">YB5Z8N</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card alt">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">PWA · Creator</div>
+          <h3 class="hero-title">ASKPPL</h3>
+          <p class="hero-desc">Social-style PWA enabling creators to monetize paid questions. Includes marketing site, admin, and web app.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://figmashort.link/ZSkfiP" target="_blank" rel="noopener"><span class="hero-link-label">Web app</span><span class="hero-link-url">ZSkfiP</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/cFwHhE" target="_blank" rel="noopener"><span class="hero-link-label">Website</span><span class="hero-link-url">cFwHhE</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">HR · SaaS</div>
+          <h3 class="hero-title">Candidpay</h3>
+          <p class="hero-desc">HR management SaaS for payroll processing, employee tracking, and task management with an intuitive dashboard.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="http://bit.ly/3e9mfDN" target="_blank" rel="noopener"><span class="hero-link-label">Figma</span><span class="hero-link-url">bit.ly/3e9mfDN</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card alt">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">Fintech · AI</div>
+          <h3 class="hero-title">Luniate AI</h3>
+          <p class="hero-desc">Financial SaaS platform — landing page, brand system, and dashboard design for an AI-driven financial product.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://www.luniate.ai/" target="_blank" rel="noopener"><span class="hero-link-label">Live site</span><span class="hero-link-url">luniate.ai</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/m2cKB3" target="_blank" rel="noopener"><span class="hero-link-label">Dashboard</span><span class="hero-link-url">m2cKB3</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">Healthcare · Brand</div>
+          <h3 class="hero-title">Caresful PREP</h3>
+          <p class="hero-desc">Full-scope redesign for a preventive healthcare brand — stylescape, strategy, and homepage design.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://figmashort.link/cxtAJs" target="_blank" rel="noopener"><span class="hero-link-label">Stylescape</span><span class="hero-link-url">cxtAJs</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/ih6pJM" target="_blank" rel="noopener"><span class="hero-link-label">Homepage</span><span class="hero-link-url">ih6pJM</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card alt">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">Events · Premium</div>
+          <h3 class="hero-title">Putt Party Hire</h3>
+          <p class="hero-desc">Premium mobile mini-golf service website balancing playful character with professional delivery and conversion focus.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://www.puttpartyhire.com.au/" target="_blank" rel="noopener"><span class="hero-link-label">Live site</span><span class="hero-link-url">puttpartyhire.com.au</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/iy2kAd" target="_blank" rel="noopener"><span class="hero-link-label">Figma</span><span class="hero-link-url">iy2kAd</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card dark">
+        <div class="placeholder-thumb">Screenshot preview</div>
+        <div class="hero-body">
+          <div class="hero-badge">AI · Mobile</div>
+          <h3 class="hero-title">FoodSwap</h3>
+          <p class="hero-desc">AI-powered app helping users find meals aligned with dietary needs, allergies, and preferences. Full mobile UX.</p>
+          <div class="hero-links">
+            <a class="hero-link" href="https://www.foodswap.ai/" target="_blank" rel="noopener"><span class="hero-link-label">Live app</span><span class="hero-link-url">foodswap.ai</span><span class="hero-link-arrow">↗</span></a>
+            <a class="hero-link" href="https://figmashort.link/YMCan2" target="_blank" rel="noopener"><span class="hero-link-label">Main feature</span><span class="hero-link-url">YMCan2</span><span class="hero-link-arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRODUCT DESIGN -->
+  <section id="product">
+    <div class="section-head">
+      <h2 class="section-title">Product design <span class="section-count">12 projects</span></h2>
+      <p class="section-desc">SaaS platforms, dashboards, design systems, and complex transactional workflows across health, HR, fintech, and B2B.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="card-header"><h3 class="card-title">Bioverse — Health &amp; Wellness</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">Web App</span><span class="tag">iOS</span><span class="tag">Healthcare</span></div><p class="card-desc">End-to-end design for a weight loss and personalized health platform. Connects marketing pages, web app, and native iOS into one product journey.</p><div class="links"><a class="link" href="https://www.gobioverse.com/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">gobioverse.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/yZcjMX" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">yZcjMX</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Scuttel — Collaboration SaaS</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">SaaS</span><span class="tag">MVP</span><span class="tag">Brand</span></div><p class="card-desc">Lightweight SaaS for secure cross-organization collaboration. Full scope — brand, strategy, end-to-end UX, and design system.</p><div class="links"><a class="link" href="https://figmashort.link/Aa4deP" target="_blank" rel="noopener"><span class="link-label">Web app</span><span class="link-url">Aa4deP</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/zidXje" target="_blank" rel="noopener"><span class="link-label">Design system</span><span class="link-url">zidXje</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/2ArTft" target="_blank" rel="noopener"><span class="link-label">Brand</span><span class="link-url">2ArTft</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Haizol — Manufacturing Marketplace</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">B2B Platform</span><span class="tag">Design System</span></div><p class="card-desc">Scalable design system and platform UI for a B2B manufacturing marketplace. Complex flows designed for clarity and trust.</p><div class="links"><a class="link" href="https://www.haizol.com/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">haizol.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/kwRPnB" target="_blank" rel="noopener"><span class="link-label">Platform</span><span class="link-url">kwRPnB</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/FBDBJP" target="_blank" rel="noopener"><span class="link-label">Design system</span><span class="link-url">FBDBJP</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">DigiExpert — LMS Platform</h3></div><div class="tags"><span class="tag accent">EdTech</span><span class="tag">LMS + CMS</span></div><p class="card-desc">End-to-end LMS ecosystem — learner dashboards, instructor CMS, landing page, and a scalable cross-device design system.</p><div class="links"><a class="link" href="https://figmashort.link/zsWHpb" target="_blank" rel="noopener"><span class="link-label">LMS</span><span class="link-url">zsWHpb</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/sShYFz" target="_blank" rel="noopener"><span class="link-label">CMS</span><span class="link-url">sShYFz</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/paiTny" target="_blank" rel="noopener"><span class="link-label">Landing</span><span class="link-url">paiTny</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Tetracare — Healthcare Service</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">Healthcare</span><span class="tag">Multi-role</span></div><p class="card-desc">End-to-end healthcare service — landing, patient dashboard, mobile app, admin platform, and technician portal with design system.</p><div class="links"><a class="link" href="https://figmashort.link/58WWaX" target="_blank" rel="noopener"><span class="link-label">Dashboard</span><span class="link-url">58WWaX</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/YHAi2M" target="_blank" rel="noopener"><span class="link-label">Mobile</span><span class="link-url">YHAi2M</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/dCPS3d" target="_blank" rel="noopener"><span class="link-label">Admin</span><span class="link-url">dCPS3d</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Move Optima — Logistics Suite</h3></div><div class="tags"><span class="tag accent">SaaS + CRM</span><span class="tag">Multi-platform</span></div><p class="card-desc">Full logistics product suite — marketing website, crew mobile app, customer estimator, and CRM admin panel.</p><div class="links"><a class="link" href="https://figmashort.link/Yt6dKC" target="_blank" rel="noopener"><span class="link-label">Website</span><span class="link-url">Yt6dKC</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/pPfKKX" target="_blank" rel="noopener"><span class="link-label">Crew mobile</span><span class="link-url">pPfKKX</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/CJnEma" target="_blank" rel="noopener"><span class="link-label">CRM admin</span><span class="link-url">CJnEma</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Custom Canvas — AI Sales Dashboard</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">AI · SaaS</span><span class="tag">Dashboard</span></div><p class="card-desc">AI-enhanced sales dashboard with predictive analytics, real-time reporting, and clear data visualization.</p><div class="links"><a class="link" href="https://figmashort.link/YB5Z8N" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">YB5Z8N</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">ASKPPL — Q&amp;A PWA</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">PWA</span><span class="tag">Creator</span></div><p class="card-desc">Social-style PWA enabling creators to monetize paid questions. Includes marketing site, admin, and web app.</p><div class="links"><a class="link" href="https://figmashort.link/ZSkfiP" target="_blank" rel="noopener"><span class="link-label">Web app</span><span class="link-url">ZSkfiP</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/cFwHhE" target="_blank" rel="noopener"><span class="link-label">Website</span><span class="link-url">cFwHhE</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/5HrJsT" target="_blank" rel="noopener"><span class="link-label">Admin</span><span class="link-url">5HrJsT</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">AdaptvTraining — Fitness Coach</h3></div><div class="tags"><span class="tag accent">Coach Platform</span></div><p class="card-desc">Coach-facing platform for a fitness coaching SaaS, designed for client management, program delivery, and progress tracking.</p><div class="links"><a class="link" href="https://figmashort.link/Ks5SJM" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">Ks5SJM</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Medzi — Medical Appointment</h3></div><div class="tags"><span class="tag accent">Healthcare</span><span class="tag">Web app</span></div><p class="card-desc">Web app streamlining medical appointment booking and management with a clean, patient-first interface.</p><div class="links"><a class="link" href="https://figmashort.link/RkcCaY" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">RkcCaY</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Candidpay — HR SaaS</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">HR</span><span class="tag">Payroll</span></div><p class="card-desc">HR management SaaS for payroll processing, employee tracking, and task management with an intuitive dashboard.</p><div class="links"><a class="link" href="http://bit.ly/3e9mfDN" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">bit.ly/3e9mfDN</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Amai &amp; Bandwango — Design Systems</h3></div><div class="tags"><span class="tag accent">Design System</span></div><p class="card-desc">Two modular design systems for SaaS scalability — components, styles, and usage guidelines for consistent handoff.</p><div class="links"><a class="link" href="https://figmashort.link/4Nb4mC" target="_blank" rel="noopener"><span class="link-label">Amai</span><span class="link-url">4Nb4mC</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/JTKkyh" target="_blank" rel="noopener"><span class="link-label">Bandwango</span><span class="link-url">JTKkyh</span><span class="link-arrow">↗</span></a></div></div>
+    </div>
+  </section>
+
+  <!-- WEBSITES -->
+  <section id="website">
+    <div class="section-head">
+      <h2 class="section-title">Websites &amp; landing pages <span class="section-count">21 projects</span></h2>
+      <p class="section-desc">Marketing websites, brand-driven landing pages, and e-commerce across fintech, SaaS, healthcare, and professional services.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="card-header"><h3 class="card-title">Restoration Warehouse</h3></div><div class="tags"><span class="tag accent">E-commerce</span><span class="tag">B2B + B2C</span></div><p class="card-desc">Scalable e-commerce for restoration professionals. End-to-end design, Webflow build, and CMS product structure.</p><div class="links"><a class="link" href="https://restorationwarehouse.com.au/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">restorationwarehouse.com.au</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/dyTBd2" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">dyTBd2</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">EZY GPS — Fleet Management</h3></div><div class="tags"><span class="tag accent">B2B + B2C</span><span class="tag">SaaS</span></div><p class="card-desc">Website for a GPS tracking and fleet management provider, communicating technical telematics clearly.</p><div class="links"><a class="link" href="https://ezygps.com.au/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">ezygps.com.au</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/BTFA2w" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">BTFA2w</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">RAD Company — Full Brand Suite</h3></div><div class="tags"><span class="tag accent">Brand + Web</span><span class="tag">Enterprise</span></div><p class="card-desc">Full brand identity, website, pitch deck, and exhibition assets for a B2B enterprise solutions provider.</p><div class="links"><a class="link" href="https://radcompany.ae/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">radcompany.ae</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/srFfH3" target="_blank" rel="noopener"><span class="link-label">Website</span><span class="link-url">srFfH3</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Luniate AI — Financial SaaS</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">Fintech</span><span class="tag">AI</span></div><p class="card-desc">Financial SaaS — landing page, brand system, and dashboard for an AI-driven financial product.</p><div class="links"><a class="link" href="https://www.luniate.ai/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">luniate.ai</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/Ctidsn" target="_blank" rel="noopener"><span class="link-label">Landing</span><span class="link-url">Ctidsn</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/m2cKB3" target="_blank" rel="noopener"><span class="link-label">Dashboard</span><span class="link-url">m2cKB3</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Caresful PREP — Medical Brand</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">Healthcare</span><span class="tag">Brand</span></div><p class="card-desc">Full-scope redesign for a preventive healthcare brand — stylescape, strategy, and homepage design.</p><div class="links"><a class="link" href="https://figmashort.link/cxtAJs" target="_blank" rel="noopener"><span class="link-label">Stylescape</span><span class="link-url">cxtAJs</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/ih6pJM" target="_blank" rel="noopener"><span class="link-label">Homepage</span><span class="link-url">ih6pJM</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Bridge Socials — AI Platform</h3></div><div class="tags"><span class="tag accent">AI</span><span class="tag">Marketing</span></div><p class="card-desc">Platform connecting brands with influencers. Redesigned landing page for premium, credible conversion.</p><div class="links"><a class="link" href="https://bridgesocials.com/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">bridgesocials.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/fYSTpm" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">fYSTpm</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Pegasus Airlines — Redesign</h3></div><div class="tags"><span class="tag accent">Travel</span><span class="tag">Webflow</span></div><p class="card-desc">Redesigned booking experience for a leading low-cost airline. Simplified flight search and account management.</p><div class="links"><a class="link" href="http://www.pegasusair.co.id" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">pegasusair.co.id</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/pbEA7y" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">pbEA7y</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">JustLogin — HR SaaS</h3></div><div class="tags"><span class="tag accent">HR SaaS</span><span class="tag">APAC</span></div><p class="card-desc">Modernized marketing website for a leading HR suite across Southeast Asia. Improved conversion and clarity.</p><div class="links"><a class="link" href="https://figmashort.link/iefnMh" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">iefnMh</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Putt Party Hire — Premium Events</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">Events</span></div><p class="card-desc">Premium mobile mini-golf service website balancing playful character with professional conversion focus.</p><div class="links"><a class="link" href="https://www.puttpartyhire.com.au/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">puttpartyhire.com.au</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/iy2kAd" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">iy2kAd</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Lahda — Marketing Agency</h3></div><div class="tags"><span class="tag accent">Agency</span></div><p class="card-desc">Conversion-focused agency landing page communicating services, building trust, and driving lead inquiries.</p><div class="links"><a class="link" href="https://www.lahda.co/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">lahda.co</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/QbsbHG" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">QbsbHG</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">GIC Holding — Global Consulting</h3></div><div class="tags"><span class="tag accent">Corporate</span><span class="tag">Brand</span></div><p class="card-desc">Multi-page website and enterprise-grade design system for a global engineering consulting firm.</p><div class="links"><a class="link" href="https://figmashort.link/yfr8tB" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">yfr8tB</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Vegas LD — Lighting Design</h3></div><div class="tags"><span class="tag accent">Brand + Web</span></div><p class="card-desc">Premium brand identity and conversion-focused website for a lighting design agency.</p><div class="links"><a class="link" href="https://figmashort.link/eMZxMA" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">eMZxMA</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Elite Commercial Joinery</h3></div><div class="tags"><span class="tag accent">Brand + Web</span></div><p class="card-desc">Company profile website and brand identity for a commercial joinery firm emphasizing craft.</p><div class="links"><a class="link" href="https://elitecj.com.au/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">elitecj.com.au</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/aWxZ68" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">aWxZ68</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Car Inspect — Automotive</h3></div><div class="tags"><span class="tag accent">Automotive</span></div><p class="card-desc">Full website redesign for an automotive inspection service, streamlining booking and service discovery.</p><div class="links"><a class="link" href="https://www.carinspect.com.au/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">carinspect.com.au</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/2DTrmy" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">2DTrmy</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Autosensei — Auto Platform</h3></div><div class="tags"><span class="tag accent">Automotive</span><span class="tag">Brand</span></div><p class="card-desc">Brand and website for a car auction platform connecting sellers with dealers. Full identity delivered end-to-end.</p><div class="links"><a class="link" href="https://figmashort.link/cJikaA" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">cJikaA</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Skout Organic — E-commerce</h3></div><div class="tags"><span class="tag accent">E-commerce</span></div><p class="card-desc">E-commerce site for a US organic snack brand, reflecting simplicity and family-friendly values.</p><div class="links"><a class="link" href="https://www.skoutorganic.com/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">skoutorganic.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/3BCx3B" target="_blank" rel="noopener"><span class="link-label">High-fi</span><span class="link-url">3BCx3B</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">SiteCurve — SEO SaaS</h3></div><div class="tags"><span class="tag accent">SaaS</span><span class="tag">SEO</span></div><p class="card-desc">Landing page and dashboard for an SEO SaaS product, designed to communicate value and drive conversion.</p><div class="links"><a class="link" href="https://sitecurve.com/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">sitecurve.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/y3ahfM" target="_blank" rel="noopener"><span class="link-label">Landing</span><span class="link-url">y3ahfM</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/kQ3xMJ" target="_blank" rel="noopener"><span class="link-label">Dashboard</span><span class="link-url">kQ3xMJ</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Wellnatur — E-commerce</h3></div><div class="tags"><span class="tag accent">E-commerce</span></div><p class="card-desc">E-commerce for natural wellness products with clear storytelling and streamlined checkout.</p><div class="links"><a class="link" href="https://www.wellnatur.com/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">wellnatur.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/pfnNZw" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">pfnNZw</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Hospima &amp; Magma — Healthcare</h3></div><div class="tags"><span class="tag accent">Healthcare</span></div><p class="card-desc">Two healthcare websites streamlining access to services and patient resources with professional presentation.</p><div class="links"><a class="link" href="https://figmashort.link/ZS7BQY" target="_blank" rel="noopener"><span class="link-label">Hospima</span><span class="link-url">ZS7BQY</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/a6NSZC" target="_blank" rel="noopener"><span class="link-label">Magma</span><span class="link-url">a6NSZC</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Innomeds</h3></div><div class="tags"><span class="tag accent">Healthcare</span></div><p class="card-desc">Healthcare website presenting services with clarity, accessibility, and a modern professional tone.</p><div class="links"><a class="link" href="https://innomeds.co/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">innomeds.co</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/QnwPGf" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">QnwPGf</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">UXE.ai &amp; xTools — AI Platforms</h3></div><div class="tags"><span class="tag accent">AI</span><span class="tag">Website</span></div><p class="card-desc">Websites for two AI platforms, each with distinct brand tone and clear product messaging.</p><div class="links"><a class="link" href="https://uxe.ai/" target="_blank" rel="noopener"><span class="link-label">UXE.ai</span><span class="link-url">uxe.ai</span><span class="link-arrow">↗</span></a><a class="link" href="https://xtools.com/" target="_blank" rel="noopener"><span class="link-label">xTools</span><span class="link-url">xtools.com</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">1 Love Basketball — Non-Profit</h3></div><div class="tags"><span class="tag accent">Non-Profit</span><span class="tag">Brand</span></div><p class="card-desc">Full brand and digital experience for a youth empowerment non-profit — logo, identity, website, and social content.</p><div class="links"><a class="link" href="https://1lovebasketball.com" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">1lovebasketball.com</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/5t3MWs" target="_blank" rel="noopener"><span class="link-label">Brand</span><span class="link-url">5t3MWs</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Shopify E-commerce Collection</h3></div><div class="tags"><span class="tag accent">E-commerce</span><span class="tag">5 brands</span></div><p class="card-desc">Five Shopify storefronts across makeup, luggage, camera, fashion, and perfume with distinct brand treatments.</p><div class="links"><a class="link" href="https://figmashort.link/xTwfSh" target="_blank" rel="noopener"><span class="link-label">Collection</span><span class="link-url">xTwfSh</span><span class="link-arrow">↗</span></a></div></div>
+    </div>
+  </section>
+
+  <!-- MOBILE -->
+  <section id="mobile">
+    <div class="section-head">
+      <h2 class="section-title">Mobile apps <span class="section-count">6 projects</span></h2>
+      <p class="section-desc">Native iOS and cross-platform mobile experiences — from finance apps to AI-driven dining and healthcare.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="card-header"><h3 class="card-title">FoodSwap — AI Dining App</h3><span class="card-featured-badge">Featured</span></div><div class="tags"><span class="tag accent">AI</span><span class="tag">Consumer</span></div><p class="card-desc">AI-powered app for dietary-aligned meals. Full mobile UX across onboarding, dine-in, and recommendations.</p><div class="links"><a class="link" href="https://www.foodswap.ai/" target="_blank" rel="noopener"><span class="link-label">Live app</span><span class="link-url">foodswap.ai</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/K3CPjP" target="_blank" rel="noopener"><span class="link-label">Onboarding</span><span class="link-url">K3CPjP</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/r4EYKZ" target="_blank" rel="noopener"><span class="link-label">DineIn</span><span class="link-url">r4EYKZ</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/YMCan2" target="_blank" rel="noopener"><span class="link-label">Main feature</span><span class="link-url">YMCan2</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Cakeclub — Finance App</h3></div><div class="tags"><span class="tag accent">Fintech</span><span class="tag">Consumer</span></div><p class="card-desc">Modern finance app for budgeting, expense tracking, and financial literacy with smart tools.</p><div class="links"><a class="link" href="https://www.cakeclubapp.com/" target="_blank" rel="noopener"><span class="link-label">Website</span><span class="link-url">cakeclubapp.com</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Physiotherapy App</h3></div><div class="tags"><span class="tag accent">Healthcare</span></div><p class="card-desc">Mobile UX and UI for a physiotherapy service, structured around rehabilitation flows and patient guidance.</p><div class="links"><a class="link" href="https://figmashort.link/nBXDNi" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">nBXDNi</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">VCard — Digital Identity</h3></div><div class="tags"><span class="tag accent">iOS</span><span class="tag">Identity</span></div><p class="card-desc">iOS app for creating and managing digital identity cards with secure sharing capabilities.</p><div class="links"><a class="link" href="http://figmashort.link/hTFxeT" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">hTFxeT</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Jackett — EdTech iOS</h3></div><div class="tags"><span class="tag accent">EdTech</span><span class="tag">iOS</span></div><p class="card-desc">Educational platform for students — lesson planning, quizzes, and progress tracking in a single iOS experience.</p><div class="links"><a class="link" href="http://figmashort.link/TjQNED" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">TjQNED</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Keyless Key — Smart Home</h3></div><div class="tags"><span class="tag accent">IoT</span><span class="tag">iOS</span></div><p class="card-desc">Secure keyless entry iOS app for unlocking doors, managing access, and monitoring entry logs.</p><div class="links"><a class="link" href="https://keyless.ae/" target="_blank" rel="noopener"><span class="link-label">Live site</span><span class="link-url">keyless.ae</span><span class="link-arrow">↗</span></a><a class="link" href="http://figmashort.link/5T77mA" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">5T77mA</span><span class="link-arrow">↗</span></a></div></div>
+    </div>
+  </section>
+
+  <!-- GRAPHIC -->
+  <section id="graphic">
+    <div class="section-head">
+      <h2 class="section-title">Graphic &amp; illustration <span class="section-count">5 projects</span></h2>
+      <p class="section-desc">Brand collateral, social media assets, reports, and 2D animation for marketing and product teams.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="card-header"><h3 class="card-title">Zharina — Full Brand Suite</h3></div><div class="tags"><span class="tag accent">Brand + Social</span></div><p class="card-desc">Full brand suite for a beach rental business — poster design, brand identity, and social media assets.</p><div class="links"><a class="link" href="https://figmashort.link/khXYnc" target="_blank" rel="noopener"><span class="link-label">Brand</span><span class="link-url">khXYnc</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/zQEe5f" target="_blank" rel="noopener"><span class="link-label">Poster</span><span class="link-url">zQEe5f</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/dZKTkJ" target="_blank" rel="noopener"><span class="link-label">Instagram</span><span class="link-url">dZKTkJ</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Smelly Balls — Social</h3></div><div class="tags"><span class="tag accent">Social</span></div><p class="card-desc">Instagram post and story creative for a consumer brand with consistent campaign tone.</p><div class="links"><a class="link" href="https://figmashort.link/HX5a4m" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">HX5a4m</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">xTools — YouTube &amp; Social</h3></div><div class="tags"><span class="tag accent">Brand assets</span></div><p class="card-desc">YouTube cover, social media assets, and video marketing pieces reinforcing brand identity.</p><div class="links"><a class="link" href="https://figmashort.link/6BtY4i" target="_blank" rel="noopener"><span class="link-label">YouTube</span><span class="link-url">6BtY4i</span><span class="link-arrow">↗</span></a><a class="link" href="https://figmashort.link/8cjJp2" target="_blank" rel="noopener"><span class="link-label">Social</span><span class="link-url">8cjJp2</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Potentia — PDF Report</h3></div><div class="tags"><span class="tag accent">Editorial</span></div><p class="card-desc">Editorial PDF report with structured layout, data visualization, and consistent brand presentation.</p><div class="links"><a class="link" href="https://figmashort.link/2C22GP" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">2C22GP</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Bot MD — 2D Animation</h3></div><div class="tags"><span class="tag accent">Animation</span><span class="tag">Healthcare</span></div><p class="card-desc">Custom 2D animation assets and scenarios for a healthcare AI platform, supporting product demos.</p><div class="links"><a class="link" href="https://figmashort.link/ESk5CX" target="_blank" rel="noopener"><span class="link-label">Figma</span><span class="link-url">ESk5CX</span><span class="link-arrow">↗</span></a></div></div>
+    </div>
+  </section>
+
+  <!-- DEVELOPMENT -->
+  <section id="development">
+    <div class="section-head">
+      <h2 class="section-title">Development <span class="section-count">5 projects</span></h2>
+      <p class="section-desc">Webflow builds — from interactive marketing sites to coming-soon pages and AI platform websites.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="card-header"><h3 class="card-title">Atlas — Marketing Site</h3></div><div class="tags"><span class="tag accent">Webflow</span><span class="tag">Marketing</span></div><p class="card-desc">Marketing website showcasing talent solutions with high-impact branding and clear calls to action.</p><div class="links"><a class="link" href="https://atlas-dev-61bb23-676e0380-9bdafcfa8fa35.webflow.io/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">atlas-dev.webflow.io</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Dopewars — Gaming Landing</h3></div><div class="tags"><span class="tag accent">Webflow</span><span class="tag">Web3</span></div><p class="card-desc">Bold landing page for a decentralized gaming ecosystem with interactive animations and strong brand.</p><div class="links"><a class="link" href="https://dope-wars.webflow.io/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">dope-wars.webflow.io</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Cubit — Web Agency</h3></div><div class="tags"><span class="tag accent">Webflow</span><span class="tag">Agency</span></div><p class="card-desc">Clean, minimalist website for a web development agency with structured content and responsive performance.</p><div class="links"><a class="link" href="https://cubit-af17f4.webflow.io/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">cubit-af17f4.webflow.io</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Datasaur — AI Platform</h3></div><div class="tags"><span class="tag accent">Webflow</span><span class="tag">AI</span></div><p class="card-desc">Dark-themed scalable website for an AI data labeling platform, balancing visual intensity with usability.</p><div class="links"><a class="link" href="https://datasaur-ai-3db4b9.webflow.io/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">datasaur-ai.webflow.io</span><span class="link-arrow">↗</span></a></div></div>
+      <div class="card"><div class="card-header"><h3 class="card-title">Pegasus — Coming Soon</h3></div><div class="tags"><span class="tag accent">Webflow</span><span class="tag">Lead capture</span></div><p class="card-desc">Sleek coming-soon page with animated elements and subscription form for lead capture before launch.</p><div class="links"><a class="link" href="https://pegasus-1b1f14.webflow.io/" target="_blank" rel="noopener"><span class="link-label">Live</span><span class="link-url">pegasus-1b1f14.webflow.io</span><span class="link-arrow">↗</span></a></div></div>
+    </div>
+  </section>
+
+  <footer><p>Dicky Indrayan — Selected Portfolio · Updated April 2026</p></footer>
+
+</div>
+</body>
+</html>
